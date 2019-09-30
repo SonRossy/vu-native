@@ -1,7 +1,8 @@
 <template>
   <view class="container">
     <text class="text-color-primary">{{title}}</text>
-    <text>{{meetupId}}</text>
+    <text>{{meetup.title}}</text>
+    <text>{{meetup.description}}</text>
     <button
     title="Go To Screen 2"
     :on-press="gotToScreen2"
@@ -19,7 +20,6 @@ export default {
   data(){
     return{
       title: 'I AM Detail SCreen',
-      meetupId: ''
     }
   },
   methods:{
@@ -27,9 +27,15 @@ export default {
       this.navigation.navigate('Screen2') //Screen2 is the name of the screen to go to
     }
   },
+  computed:{
+      meetup(){
+                return this.$store.state.meetups.item;
+      }
+  },
   created() {
-      this.meetupId = this.navigation.getParam('meetupId', 'none')// so you get a param like this from navigation object
+    const meetupId = this.navigation.getParam('meetupId', 'none')// so you get a param like this from navigation object
       // which is sent by the component that you is navigating to this one
+      this.$store.dispatch('meetups/fetchMeetupsById', meetupId)
   }
 }
 </script>

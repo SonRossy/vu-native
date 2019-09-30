@@ -14,7 +14,8 @@ if (Platform.OS === 'ios'){
 export default {
     namespaced: true,
     state: {
-        items: []
+        items: [],
+        item: {}
     },
     getters: {
 
@@ -26,13 +27,23 @@ export default {
              commit('setMeetups', meetups)
              return state.items
             })
+        },
+        fetchMeetupsById({commit, state}, meetupId){
+            return axios.get(`${BASE_URL}/meetups/${meetupId}`).then( res =>{
+                const meetup = res.data
+                commit('setMeetUp', meetup)
+                return state.item
+            })
         }
     },
     mutations :{
         setMeetups (state, meetups) {
             // state.meetups = meetups
             Vue.set(state, 'items', meetups)
-            console.log(state.meetups)
+        },
+        setMeetups (state, meetup) {
+            // state.meetups = meetups
+            Vue.set(state, 'item', meetup)
         }
     }
 }
