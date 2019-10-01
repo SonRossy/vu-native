@@ -28,7 +28,8 @@ export default {
              return state.items
             })
         },
-        fetchMeetupsById({commit, state}, meetupId){
+        fetchMeetupById({commit, state}, meetupId){
+            commit('setMeetUp', {})
             return axios.get(`${BASE_URL}/meetups/${meetupId}`).then( res =>{
                 const meetup = res.data
                 commit('setMeetUp', meetup)
@@ -41,8 +42,7 @@ export default {
             // state.meetups = meetups
             Vue.set(state, 'items', meetups)
         },
-        setMeetups (state, meetup) {
-            // state.meetups = meetups
+        setMeetUp (state, meetup) {
             Vue.set(state, 'item', meetup)
         }
     }
