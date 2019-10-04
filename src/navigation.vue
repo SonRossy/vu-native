@@ -7,6 +7,8 @@
 <script>
 import HomeScreen from '../src/screens/HomeScreen'
 import MeetupDetailsScreen from '../src/screens/MeetupDetailsScreen'
+import LoginScreen from '../src/screens/LoginScreen'
+import RegisterScreen from '../src/screens/RegisterScreen'
 import Screen1 from '../src/screens/Screen1'
 import Screen2 from '../src/screens/Screen2'
 import Screen3 from '../src/screens/Screen3'
@@ -16,6 +18,7 @@ import { createStackNavigator} from 'react-navigation-stack'
 import { createBottomTabNavigator} from 'react-navigation-tabs'
 import {  createAppContainer} from 'react-navigation'
 import { createDrawerNavigator} from 'react-navigation-drawer'
+import { createSwitchNavigator} from 'react-navigation'
 
 const HomeNavigator = createStackNavigator(
   {
@@ -32,6 +35,10 @@ const HomeNavigator = createStackNavigator(
   }
 )
 
+const AuthStack = createStackNavigator({
+  Login: LoginScreen,
+  Register: RegisterScreen
+})
 const SomeOtherStackNavigator1 = createStackNavigator({
     Screen2
 },
@@ -62,8 +69,16 @@ const bottomTabNavigator = createBottomTabNavigator({
 Meetups: HomeNavigator,
 Side: drawerNavigator
 })
-const AppNavigation = createAppContainer(bottomTabNavigator) //everything goe in a container that we export bellow as a component
-                                                        //that we will use as tags to diplay our component
+
+// createSwitchNavigator will show one screen at a time and does not contain back action when goes to anoter navigator
+//it is best used when switching to other screen after login screen
+const AppNavigation = createAppContainer(createSwitchNavigator({
+  //remember which ever navigator comes first will be the default one
+  auth: AuthStack,
+  tabs: bottomTabNavigator,
+  
+})) //everything goe in a container that we export bellow as a component
+    //that we will use as tags to diplay our component
 
 export default {
   components:{

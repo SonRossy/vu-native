@@ -1,6 +1,6 @@
 <template>
   <scroll-view>
-    <nb-text class="header-1">Featured Meetups</nb-text>
+    <nb-text :style="styles.label" class="header-1">Featured Meetups</nb-text>
     <MeetupCard v-for="meetup in meetups"
     :navigateToDetail="goToMeetupDetail"
     :meetup='meetup'
@@ -11,6 +11,7 @@
 
 <script>
 import MeetupCard from '../components/MeetupCard'
+import styles from '../styles/index'
 export default {
   components: {
     MeetupCard
@@ -22,7 +23,7 @@ export default {
   },
   data() {
     return {
-      title: "Home Screen",
+      styles
     }
   },
   computed: {
@@ -35,7 +36,6 @@ export default {
   },
   created() {
     //1. dispatching fetchTodos, here you could do ...mapActions like we in do PDL
-    this.$store.dispatch("fetchTodos");
     this.$store.dispatch("meetups/fetchMeetups");
   },
   methods: {
