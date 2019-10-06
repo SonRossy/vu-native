@@ -33,7 +33,7 @@
                 <nb-text>Register</nb-text>
             </nb-button>
         </view>
-        <nb-button transparent :on-press="goToLgoin" block>
+        <nb-button transparent :on-press="goToLogin" block>
             <nb-text>Already Register? Login Here </nb-text>
         </nb-button>
     </nb-content>
@@ -61,7 +61,7 @@ export default {
         }
     },
     methods: {
-        goToLgoin() {
+        goToLogin() {
             this.navigation.navigate('Login')
         },
         register() {
