@@ -9,12 +9,14 @@
     </nb-header>
     <nb-content padder>
         <nb-form>
-            <nb-item>
-                <nb-input v-model="form.email" placeholder="Email" auto-capitalize="none" />
-            </nb-item>
-            <nb-item last>
-                <nb-input v-model="form.password" placeholder="Password" auto-capitalize="none" secure-text-entry />
-            </nb-item>
+            <InputWithError :error="$v.form.email.$dirty && !$v.form.email.requried" msg="Email is Reqiured">
+                <nb-input v-model="form.email" placeholder="Email" auto-capitalize="none" :on-blur="() => $v.form.email.$touch()" />
+            </InputWithError>
+
+            <InputWithError :error="$v.form.password.$dirty && !$v.form.password.requried" msg="Password is Reqiured">
+                <nb-input v-model="form.password" placeholder="Password" auto-capitalize="none" secure-text-entry :on-blur="() => $v.form.password.$touch()" />
+            </InputWithError>
+
         </nb-form>
         <view :style="{marginTop:10}">
             <nb-button :on-press="login" block>
@@ -29,6 +31,9 @@
 </template>
 
 <script>
+import {
+    required
+} from 'vuelidate/lib/validators'
 export default {
     props: {
         navigation: { //remember that navigation is passed by default when calling that screen into a satck navigator
@@ -43,9 +48,20 @@ export default {
             }
         }
     },
+    // the below codes are posible because of vuelidate
+    validations: {
+        form: {
+            email: {
+                required
+            },
+            password: {
+                required
+            }
+        }
+    },
     methods: {
         login() {
-            alert(JSON.stringify(this.form))
+            this.$v.form.$touch()
         },
         goToRegister() {
             this.navigation.navigate('Register')

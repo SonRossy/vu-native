@@ -11,13 +11,17 @@ import Vue from "vue-native-core";
 import { VueNativeBase } from "native-base";
 import AppMessage from '../src/components/AppMessage'
 import ScreenWithDrawer from './components/ScreenDrawer'
+import InputWithError from './components/InputWithError'
 import moment from 'moment'
+import Vuelidate from 'vuelidate'
 
 // registering all native-base components to the global scope of the Vue
 Vue.use(VueNativeBase);
 Vue.component('ScreenWithDrawer', ScreenWithDrawer)
 Vue.prototype.$store = store
+Vue.use(Vuelidate)
 Vue.component('AppMessage', AppMessage)
+Vue.component('InputWithError', InputWithError)
 
 Vue.filter('upperCase', function(value){
   if(!value) return ''
@@ -38,7 +42,7 @@ export default {
   components:{
     navigation
   },
-  
+
 }
 </script>
 
@@ -48,4 +52,3 @@ export default {
   flex: 1;
 }
 </style>
-
