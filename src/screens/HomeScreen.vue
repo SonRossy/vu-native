@@ -1,7 +1,10 @@
 <template>
   <scroll-view>
     <nb-text :style="styles.label" class="header-1">Featured Meetups</nb-text>
-    <nb-text :style="styles.label" class="header-1">Welcome {{user.username}}</nb-text>
+    <nb-text v-if="user" :style="styles.label" class="header-1">Welcome {{user.username}}</nb-text>
+    <nb-button transparent :on-press="Logout" block>
+        <nb-text>Log out</nb-text>
+      </nb-button>
     <MeetupCard v-for="meetup in meetups"
     :navigateToDetail="goToMeetupDetail"
     :meetup='meetup'
@@ -13,6 +16,7 @@
 <script>
 import MeetupCard from '../components/MeetupCard'
 import styles from '../styles/index'
+import { AsyncStorage } from 'react-native'
 export default {
   components: {
     MeetupCard
@@ -41,6 +45,7 @@ export default {
   created() {
     //1. dispatching fetchTodos, here you could do ...mapActions like we in do PDL
     this.$store.dispatch("meetups/fetchMeetups");
+    this.$store.dispatch("meetups/fetchSecret");
   },
   methods: {
     goToScreen1() {
@@ -48,6 +53,9 @@ export default {
     },
     goToMeetupDetail(meetupId) {
       this.navigation.navigate('Meetup',{meetupId: meetupId})// this is how you sent something using navigation
+    },
+    Logout () {
+      AsyncStorage.removeItem('meetuper-jwt')
     }
   }
 };

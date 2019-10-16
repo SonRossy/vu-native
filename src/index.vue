@@ -12,6 +12,7 @@ import { VueNativeBase } from "native-base";
 import AppMessage from '../src/components/AppMessage'
 import ScreenWithDrawer from './components/ScreenDrawer'
 import InputWithError from './components/InputWithError'
+import AppNavigationEvents from './react-components/AppNavigationEvents'
 import moment from 'moment'
 import Vuelidate from 'vuelidate'
 
@@ -22,6 +23,7 @@ Vue.prototype.$store = store
 Vue.use(Vuelidate)
 Vue.component('AppMessage', AppMessage)
 Vue.component('InputWithError', InputWithError)
+Vue.component('AppNavigationEvents', AppNavigationEvents)
 
 Vue.filter('upperCase', function(value){
   if(!value) return ''
