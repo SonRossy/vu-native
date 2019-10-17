@@ -23,9 +23,13 @@ export default {
     namespaced: true,
     state: {
         user: null,
-        isAuth: false
+        isAuthResolved: false,
     },
-    getters: {},
+    getters: {
+        isAuth(state) {
+            return !!state.user //!! means return true if not null or false if null
+        }
+    },
     actions: {
         login({ commit, state }, userData) {
             // we put commit or state because we will use them below
@@ -43,14 +47,16 @@ export default {
                     AsyncStorage.setItem("meetuper-jwt", user.token);
                     commit("setAuthUser", user);
                     return state.user
-                })
+                }).catch(() => undefined)
         },
-        async verifyUser({ dispatch }) {
+        async verifyUser({ dispatch, commit }) {
             const jwt = await AsyncStorage.getItem("meetuper-jwt");
             if (jwt && isTokenValid(jwt)) {
                 const user = await dispatch('fetchCurrentUser')
+                commit('resolveAuth')
                 return user ? Promise.resolve(jwt) : Promise.reject('Cant not fetch User')
             }
+            commit('resolveAuth')
             return Promise.reject('Token is not valid')
         },
         register(context, userData) {
@@ -60,6 +66,9 @@ export default {
     mutations: {
         setAuthUser(state, user) {
             return (state.user = user);
+        },
+        resolveAuth(state) {
+            state.isAuthResolved = true
         }
     }
 };

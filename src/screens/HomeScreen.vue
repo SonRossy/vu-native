@@ -1,4 +1,6 @@
 <template>
+<nb-container>
+  <AppHeader screen="Home"/>
   <scroll-view>
     <nb-text :style="styles.label" class="header-1">Featured Meetups</nb-text>
     <nb-text v-if="user" :style="styles.label" class="header-1">Welcome {{user.username}}</nb-text>
@@ -11,6 +13,7 @@
     :key="meetup._id"
     ></MeetupCard>
   </scroll-view>
+  </nb-container>
 </template>
 
 <script>

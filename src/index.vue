@@ -1,6 +1,9 @@
 <template>
 <view class="container">
-  <navigation />
+  <navigation v-if="isAuthResolved"/>
+  <nb-container v-else class="spinner-container">
+    <nb-spinner color="blue" />
+  </nb-container>
 </view>
 </template>
 
@@ -11,6 +14,7 @@ import Vue from "vue-native-core";
 import { VueNativeBase } from "native-base";
 import AppMessage from '../src/components/AppMessage'
 import ScreenWithDrawer from './components/ScreenDrawer'
+import AppHeader from './components/AppHeader'
 import InputWithError from './components/InputWithError'
 import AppNavigationEvents from './react-components/AppNavigationEvents'
 import moment from 'moment'
@@ -24,6 +28,7 @@ Vue.use(Vuelidate)
 Vue.component('AppMessage', AppMessage)
 Vue.component('InputWithError', InputWithError)
 Vue.component('AppNavigationEvents', AppNavigationEvents)
+Vue.component('AppHeader', AppHeader)
 
 Vue.filter('upperCase', function(value){
   if(!value) return ''
@@ -44,6 +49,15 @@ export default {
   components:{
     navigation
   },
+  computed: {
+    isAuthResolved (){
+      return store.state.auth.isAuthResolved
+    }
+  },
+  created () {
+    store.dispatch("auth/verifyUser")
+    .catch(()=>{})
+  },
 
 }
 </script>
@@ -52,5 +66,9 @@ export default {
 .container {
   margin-top: 16px;
   flex: 1;
+}
+.spinner-container {
+  display: flex;
+  justify-content: center;
 }
 </style>
