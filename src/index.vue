@@ -1,5 +1,5 @@
 <template>
-<view class="container">
+<view class="container" :class="{'container-android': Platform.OS === 'ios' }">
   <navigation v-if="isAuthResolved"/>
   <nb-container v-else class="spinner-container">
     <nb-spinner color="blue" />
@@ -19,6 +19,7 @@ import InputWithError from './components/InputWithError'
 import AppNavigationEvents from './react-components/AppNavigationEvents'
 import moment from 'moment'
 import Vuelidate from 'vuelidate'
+import { Platform } from "react-native";
 
 // registering all native-base components to the global scope of the Vue
 Vue.use(VueNativeBase);
@@ -49,6 +50,11 @@ export default {
   components:{
     navigation
   },
+  data (){
+    return {
+      Platform
+    }
+  },
   computed: {
     isAuthResolved (){
       return store.state.auth.isAuthResolved
@@ -66,6 +72,9 @@ export default {
 .container {
   margin-top: 16px;
   flex: 1;
+}
+.container-android {
+   padding-top: 25px
 }
 .spinner-container {
   display: flex;

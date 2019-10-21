@@ -9,6 +9,7 @@ import HomeScreen from "../src/screens/HomeScreen";
 import MeetupDetailsScreen from "../src/screens/MeetupDetailsScreen";
 import LoginScreen from "../src/screens/LoginScreen";
 import RegisterScreen from "../src/screens/RegisterScreen";
+import MeetupCreateScreen from "../src/screens/MeetupCreateScreen";
 import Screen1 from "../src/screens/Screen1";
 import Screen2 from "../src/screens/Screen2";
 import Screen3 from "../src/screens/Screen3";
@@ -23,6 +24,7 @@ import { createSwitchNavigator } from "react-navigation";
 const HomeNavigator = createStackNavigator(
   {
     Home: HomeScreen,
+    MeetupCreate: MeetupCreateScreen,
     Meetup: MeetupDetailsScreen, //once register here, you can call it with props this.navigation.navigate('Meetup')
     // it seems that createStackNavigator comes with the on object call navigation that you use to navigate to other stack
     ScreenOne: Screen1

@@ -1,25 +1,23 @@
 <template>
-<nb-container>
-  <AppHeader screen="Home"/>
-  <scroll-view>
-    <nb-text :style="styles.label" class="header-1">Featured Meetups</nb-text>
-    <nb-text v-if="user" :style="styles.label" class="header-1">Welcome {{user.username}}</nb-text>
-    <nb-button transparent :on-press="Logout" block>
-        <nb-text>Log out</nb-text>
-      </nb-button>
-    <MeetupCard v-for="meetup in meetups"
-    :navigateToDetail="goToMeetupDetail"
-    :meetup='meetup'
-    :key="meetup._id"
-    ></MeetupCard>
-  </scroll-view>
+  <nb-container>
+    <AppHeader :root="true" :navigation="navigation" screen="Home" />
+    <scroll-view>
+      <nb-text :style="styles.label" class="header-1">Featured Meetups</nb-text>
+      <nb-text v-if="user" :style="styles.label" class="header-1">Welcome {{user.username}}</nb-text>
+      <MeetupCard
+        v-for="meetup in meetups"
+        :navigateToDetail="goToMeetupDetail"
+        :meetup="meetup"
+        :key="meetup._id"
+      ></MeetupCard>
+    </scroll-view>
   </nb-container>
 </template>
 
 <script>
-import MeetupCard from '../components/MeetupCard'
-import styles from '../styles/index'
-import { AsyncStorage } from 'react-native'
+import MeetupCard from "../components/MeetupCard";
+import styles from "../styles/index";
+import { AsyncStorage } from "react-native";
 export default {
   components: {
     MeetupCard
@@ -32,7 +30,7 @@ export default {
   data() {
     return {
       styles
-    }
+    };
   },
   computed: {
     todos() {
@@ -41,8 +39,8 @@ export default {
     meetups() {
       return this.$store.state.meetups.items;
     },
-    user () {
-      return this.$store.state.auth.user
+    user() {
+      return this.$store.state.auth.user;
     }
   },
   created() {
@@ -55,10 +53,10 @@ export default {
       this.navigation.navigate("ScreenOne");
     },
     goToMeetupDetail(meetupId) {
-      this.navigation.navigate('Meetup',{meetupId: meetupId})// this is how you sent something using navigation
+      this.navigation.navigate("Meetup", { meetupId: meetupId }); // this is how you sent something using navigation
     },
-    Logout () {
-      AsyncStorage.removeItem('meetuper-jwt')
+    Logout() {
+      AsyncStorage.removeItem("meetuper-jwt");
     }
   }
 };
