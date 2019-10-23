@@ -6,6 +6,7 @@ import { Platform } from 'react-native'
 import meetups from './modules/meetups'
 import threads from './modules/threads'
 import auth from './modules/auth'
+import categories from './modules/category'
 
 Vue.use(Vuex)
 
@@ -13,7 +14,8 @@ export default new Vuex.Store({
     modules: {
         meetups, //this is a store
         threads, //this is another store
-        auth
+        auth,
+        categories
     },
     state: {},
     //like computed properties
