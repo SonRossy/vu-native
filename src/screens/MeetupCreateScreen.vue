@@ -19,7 +19,20 @@
           </nb-item>
           <nb-item stackedLabel>
             <nb-label>Start Date</nb-label>
-            <nb-input v-model="form.startDate" />
+            <view :style="inpuStyle">
+              <nb-date-picker
+                :defaultDate="defaultDate"
+                :minimumDate="minimumDate"
+                :maximumDate="maximumDate"
+                :modalTransparent="false"
+                animationType="fade"
+                androidMode="default"
+                placeHolderText="Select date"
+                :textStyle="{ color: 'black' }"
+                :placeHolderTextStyle="{ color: '#d3d3d3' }"
+                :onDateChange="setDate"
+              />
+            </view>
           </nb-item>
           <nb-item stackedLabel>
             <nb-label>Time From</nb-label>
@@ -30,24 +43,25 @@
             <nb-input v-model="form.timeTo" />
           </nb-item>
           <nb-item stackedLabel>
-          <nb-label>Category</nb-label>
-          <view :style="{flex:1, alignSelf: 'stretch', paddingLeft: null, marginLeft: null,
-          height: 50}"
-          >
-            <nb-picker
-              mode="dropdown"
-              placeholder="Select Category"
-              placeholderIconColor="#007aff"
-              :selectedValue="form.category"
-              :onValueChange="onCategoryChange"
+            <nb-label>Category</nb-label>
+            <view
+              :style="inpuStyle"
             >
-              <nb-item label="Wallet" value="key0" />
-              <nb-item label="ATM Card" value="key1" />
-              <nb-item label="Debit Card" value="key2" />
-              <nb-item label="Credit Card" value="key3" />
-              <nb-item label="Net Banking" value="key4" />
-            </nb-picker>
-          </view>
+              <nb-picker
+                mode="dropdown"
+                placeholder="Select Category"
+                placeholderIconColor="#007aff"
+                :selectedValue="selectedValue"
+                :onValueChange="onCategoryChange"
+              >
+                <nb-item
+                  v-for="category in categories"
+                  :key="category._id"
+                  :label="category.name"
+                  :value="category"
+                />
+              </nb-picker>
+            </view>
           </nb-item>
           <nb-item stackedLabel>
             <nb-label>Image</nb-label>
@@ -83,7 +97,15 @@ export default {
     }
   },
   data() {
+    const today = new Date()
+    const year = today.getFullYear()
+    const month = today.getMonth()
+    const day = today.getDate()
+    const maximumDate = new Date(year+1, month, day)
     return {
+      defaultDate: today,
+      minimumDate: today,
+      maximumDate: maximumDate,
       styles,
       form: {
         location: null,
@@ -95,17 +117,38 @@ export default {
         description: null,
         timeTo: null,
         timeFrom: null
+      },
+      inpuStyle: {
+        flex: 1,
+        alignSelf: "stretch",
+        paddingLeft: null,
+        marginLeft: null,
+        height: 50
       }
     };
+  },
+  computed: {
+    categories() {
+      return this.$store.state.categories.items;
+    },
+    selectedValue() {
+      return this.form.category; // || (this.categories[0] && this.hasCategories)
+    },
+    hasCategories() {
+      return this.categories && this.categories.length > 0;
+    }
   },
   methods: {
     createMeetup() {},
     onCategoryChange(category) {
       this.form.category = category;
+    },
+    setDate(date){
+      this.form.startDate = date
     }
   },
   created() {
-    this.$store.dispatch('categories/fetchCategories').then(cate=>{alert(JSON.stringify(cate))})
+    this.$store.dispatch("categories/fetchCategories");
   }
 };
 </script>
