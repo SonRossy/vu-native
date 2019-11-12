@@ -43,11 +43,24 @@ export default {
                 commit("setMeetUp", meetup);
                 return state.item;
             });
+        },
+        createMeetup({ rootState, commit }, meetupData) {
+            meetupData.processedLocation = meetupData.location.toLowerCase().replace(/[\s,]+/g, '').trim()
+            meetupData.meetupCreator = rootState.auth.user
+            return axiosInstance.post(`${BASE_URL}/meetups`, meetupData).
+            then(res => {
+                const meetup = res.data
+                commit('addMeetup', meetup)
+                return meetup
+            })
         }
     },
     mutations: {
         setMeetUp(state, meetup) {
             Vue.set(state, "item", meetup);
+        },
+        addMeetup(state, meetup) {
+            state.items.unshift(meetup)
         }
     }
 };

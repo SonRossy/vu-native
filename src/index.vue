@@ -20,6 +20,7 @@ import AppNavigationEvents from './react-components/AppNavigationEvents'
 import moment from 'moment'
 import Vuelidate from 'vuelidate'
 import { Platform } from "react-native";
+import AppTimePicker from '../src/components/AppTimePicker'
 
 // registering all native-base components to the global scope of the Vue
 Vue.use(VueNativeBase);
@@ -30,6 +31,7 @@ Vue.component('AppMessage', AppMessage)
 Vue.component('InputWithError', InputWithError)
 Vue.component('AppNavigationEvents', AppNavigationEvents)
 Vue.component('AppHeader', AppHeader)
+ Vue.component('AppTimePicker', AppTimePicker)
 
 Vue.filter('upperCase', function(value){
   if(!value) return ''
